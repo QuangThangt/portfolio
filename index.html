@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trần Quang Thắng - Full-stack Developer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap');
+        
+        body {
+            background-color: #0f0e13;
+            color: #e2dfdb;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        ::selection {
+            background-color: #c2ff00;
+            color: #000;
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100vw;
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .text-outline {
+            -webkit-text-stroke: 1px #e2dfdb;
+            color: transparent;
+        }
+        
+        .text-outline-lime {
+            -webkit-text-stroke: 1px #c2ff00;
+            color: transparent;
+        }
+
+        /* Nav active states handled by JS classes */
+        .nav-btn.active {
+            background-color: #c2ff00;
+            color: #0f0e13;
+        }
+        .nav-btn:not(.active) {
+            color: #8a8893;
+        }
+        .nav-btn:not(.active):hover {
+            color: #e2dfdb;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen antialiased">
+
+    <!-- HIỆU ỨNG ÁNH SÁNG CHUỘT (SPOTLIGHT) -->
+    <div id="spotlight" class="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300" 
+         style="background: radial-gradient(600px circle at 0px 0px, rgba(194, 255, 0, 0.04), transparent 40%)">
+    </div>
+
+    <!-- THANH ĐIỀU HƯỚNG (NAV) -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+        <div class="bg-[#1a1921]/80 backdrop-blur-xl border border-white/5 p-1.5 rounded-full flex gap-1 shadow-2xl">
+            <button data-target="home" class="nav-btn active px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 capitalize">home</button>
+            <button data-target="about" class="nav-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 capitalize">about</button>
+            <button data-target="work" class="nav-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 capitalize">work</button>
+            <button data-target="contact" class="nav-btn px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 capitalize">contact</button>
+        </div>
+    </nav>
+
+    <!-- TRẠNG THÁI -->
+    <div class="fixed bottom-6 left-6 z-40 hidden md:flex items-center gap-3 bg-[#1a1921]/80 backdrop-blur-md border border-white/5 px-4 py-2 rounded-full">
+        <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c2ff00] opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#c2ff00]"></span>
+        </span>
+        <span class="text-xs font-medium uppercase tracking-wider text-[#8a8893]">
+            Software Engineering Student • Class of 2027
+        </span>
+    </div>
+
+    <main class="px-6 md:px-12 lg:px-24">
+        
+        <!-- PHẦN HERO -->
+        <section id="home" class="min-h-[90vh] flex flex-col justify-center pt-32 pb-20">
+            <div class="max-w-6xl mx-auto w-full">
+                <h1 class="text-[12vw] md:text-[8vw] leading-[0.9] tracking-tighter mb-8">
+                    <span class="font-serif block">Full-stack</span>
+                    <span class="font-sans font-bold flex flex-wrap items-center gap-4 md:gap-8">
+                        <span class="text-outline-lime">Developer</span>
+                        <span class="text-xl md:text-2xl font-normal tracking-normal max-w-xs text-[#8a8893] hidden md:block mt-4">
+                            Building scalable systems and clean architectures.
+                        </span>
+                    </span>
+                </h1>
+                
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end border-t border-white/10 pt-8 mt-12 md:mt-24">
+                    <div class="md:col-span-4 text-[#8a8893] text-sm uppercase tracking-widest flex flex-col gap-2">
+                        <span>Based in <br/> Ho Chi Minh City, VN</span>
+                        <span class="text-[#c2ff00] font-mono mt-1 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-[#c2ff00] animate-pulse"></span>
+                            <span id="live-clock">--:--:--</span>
+                        </span>
+                    </div>
+                    <div class="md:col-span-5 text-lg md:text-xl font-light leading-relaxed">
+                        Hi, I'm <span class="text-white font-medium">Trần Quang Thắng</span>. A Full-stack Developer focused on creating robust and optimized software solutions.
+                    </div>
+                    <div class="md:col-span-3 flex md:justify-end">
+                        <button onclick="document.getElementById('work').scrollIntoView({ behavior: 'smooth' })" 
+                                class="group flex items-center justify-center w-24 h-24 bg-[#1a1921] rounded-full border border-white/5 hover:bg-[#c2ff00] hover:text-[#0f0e13] hover:scale-105 transition-all duration-300">
+                            <i class="ph ph-arrow-up-right text-3xl group-hover:rotate-45 transition-transform duration-300"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHỮ CHẠY (MARQUEE) -->
+        <div class="marquee-container py-12 border-y border-white/5 opacity-50 mb-20 md:mb-32">
+            <div class="marquee-content text-4xl md:text-6xl font-serif italic text-outline">
+                SCALABLE SYSTEMS &nbsp; • &nbsp; CLEAN ARCHITECTURE &nbsp; • &nbsp; OPTIMIZED DATABASES &nbsp; • &nbsp; FULL-STACK DEVELOPMENT &nbsp; • &nbsp; 
+            </div>
+        </div>
+
+        <!-- GIỚI THIỆU & KỸ NĂNG -->
+        <section id="about" class="py-20 max-w-6xl mx-auto w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+                <div>
+                    <h2 class="text-sm font-medium uppercase tracking-widest text-[#c2ff00] mb-8">01. About Me</h2>
+                    <p class="text-2xl md:text-3xl leading-snug font-serif mb-6">
+                        I am a Software Engineering student at Saigon University, expected to graduate in 2027.
+                    </p>
+
+                    <p class="text-[#8a8893] text-lg leading-relaxed">
+                        I enjoy building web applications and learning about full-stack development. 
+                        Through my studies and personal projects, I have worked with technologies like 
+                        Laravel, React, and databases to create small management systems and practical web projects.
+                    </p>
+                    <div class="mt-12 flex gap-6">
+                        <a href="https://github.com/QuangThangt" target="_blank" class="p-3 bg-[#1a1921] rounded-full hover:bg-white hover:text-black transition-colors border border-white/5">
+                            <i class="ph ph-github-logo text-xl"></i>
+                        </a>
+                        <a href="mailto:it.tranquangthang@gmail.com" class="p-3 bg-[#1a1921] rounded-full hover:bg-[#c2ff00] hover:text-black transition-colors border border-white/5">
+                            <i class="ph ph-envelope text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 class="text-sm font-medium uppercase tracking-widest text-[#c2ff00] mb-8">02. Expertise</h2>
+                    <div class="flex flex-col gap-4">
+                        
+                        <div class="group p-6 bg-[#1a1921] border border-white/5 rounded-2xl hover:border-[#c2ff00]/50 transition-colors flex gap-6 items-start">
+                            <div class="p-3 bg-[#0f0e13] rounded-xl text-[#c2ff00]">
+                                <i class="ph ph-browsers text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-medium mb-1">Frontend Stack</h3>
+                                <p class="text-[#8a8893] text-sm">ReactJS, Tailwind CSS, JavaScript, HTML5/CSS3</p>
+                            </div>
+                        </div>
+
+                        <div class="group p-6 bg-[#1a1921] border border-white/5 rounded-2xl hover:border-[#c2ff00]/50 transition-colors flex gap-6 items-start">
+                            <div class="p-3 bg-[#0f0e13] rounded-xl text-[#c2ff00]">
+                                <i class="ph ph-terminal-window text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-medium mb-1">Backend Stack</h3>
+                                <p class="text-[#8a8893] text-sm">Laravel, Spring Boot, .NET Core, Java, PHP, C#</p>
+                            </div>
+                        </div>
+
+                        <div class="group p-6 bg-[#1a1921] border border-white/5 rounded-2xl hover:border-[#c2ff00]/50 transition-colors flex gap-6 items-start">
+                            <div class="p-3 bg-[#0f0e13] rounded-xl text-[#c2ff00]">
+                                <i class="ph ph-database text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-medium mb-1">Databases</h3>
+                                <p class="text-[#8a8893] text-sm">MySQL, PostgreSQL, SQL Server</p>
+                            </div>
+                        </div>
+
+                        <div class="group p-6 bg-[#1a1921] border border-white/5 rounded-2xl hover:border-[#c2ff00]/50 transition-colors flex gap-6 items-start">
+                            <div class="p-3 bg-[#0f0e13] rounded-xl text-[#c2ff00]">
+                                <i class="ph ph-wrench text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-medium mb-1">Developer Tools</h3>
+                                <p class="text-[#8a8893] text-sm">Git, GitHub, Docker, Postman</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DỰ ÁN (PROJECTS) THIẾT KẾ LIST MỚI -->
+        <section id="work" class="py-20 md:py-32 max-w-6xl mx-auto w-full">
+            <div class="flex justify-between items-end mb-16">
+                <h2 class="text-5xl md:text-7xl font-serif tracking-tight">Selected <br/><span class="italic text-[#8a8893]">Works.</span></h2>
+                <span class="text-sm uppercase tracking-widest text-[#c2ff00] mb-2 hidden md:block">03. Portfolio</span>
+            </div>
+
+            <div class="flex flex-col border-t border-white/10">
+                
+                <!-- Dự án 1 -->
+                <div class="group cursor-pointer py-10 md:py-16 border-b border-white/10 flex flex-col md:flex-row gap-6 md:gap-12 md:items-center transition-all duration-500 hover:bg-[#1a1921]/60 px-6 -mx-6 rounded-3xl">
+                    <span class="text-2xl font-serif text-[#8a8893] md:w-16 shrink-0 group-hover:text-white transition-colors">01</span>
+                    
+                    <div class="md:w-1/3 shrink-0">
+                        <h3 class="text-3xl md:text-4xl font-medium group-hover:text-[#c2ff00] transition-colors mb-4">English Center Management</h3>
+                        <p class="text-[#c2ff00] text-xs uppercase tracking-widest font-mono bg-[#c2ff00]/10 inline-block px-3 py-1 rounded-full border border-[#c2ff00]/20">Laravel • ReactJS</p>
+                    </div>
+                    
+                    <div class="md:flex-1">
+                        <p class="text-[#8a8893] text-base leading-relaxed group-hover:text-slate-300 transition-colors">
+                            A centralized platform for course scheduling and student progress tracking. Features automated course assignment and administrative documentation for scalable enterprise-level services.
+                        </p>
+                    </div>
+                    
+                    <div class="hidden lg:flex items-center justify-center w-16 h-16 rounded-full border border-white/10 group-hover:border-[#c2ff00] group-hover:bg-[#c2ff00] group-hover:text-black transition-all duration-300 shrink-0 transform group-hover:rotate-45">
+                        <i class="ph ph-arrow-up-right text-2xl"></i>
+                    </div>
+                </div>
+
+                <!-- Dự án 2 -->
+                <div class="group cursor-pointer py-10 md:py-16 border-b border-white/10 flex flex-col md:flex-row gap-6 md:gap-12 md:items-center transition-all duration-500 hover:bg-[#1a1921]/60 px-6 -mx-6 rounded-3xl">
+                    <span class="text-2xl font-serif text-[#8a8893] md:w-16 shrink-0 group-hover:text-white transition-colors">02</span>
+                    
+                    <div class="md:w-1/3 shrink-0">
+                        <h3 class="text-3xl md:text-4xl font-medium group-hover:text-[#c2ff00] transition-colors mb-4">Bookstore Management</h3>
+                        <p class="text-[#c2ff00] text-xs uppercase tracking-widest font-mono bg-[#c2ff00]/10 inline-block px-3 py-1 rounded-full border border-[#c2ff00]/20">.NET Core • SQL</p>
+                    </div>
+                    
+                    <div class="md:flex-1">
+                        <p class="text-[#8a8893] text-base leading-relaxed group-hover:text-slate-300 transition-colors">
+                            Management software for inventory, sales, and retail operations leveraging high-performance backend processing and complex tracking modules.
+                        </p>
+                    </div>
+                    
+                    <div class="hidden lg:flex items-center justify-center w-16 h-16 rounded-full border border-white/10 group-hover:border-[#c2ff00] group-hover:bg-[#c2ff00] group-hover:text-black transition-all duration-300 shrink-0 transform group-hover:rotate-45">
+                        <i class="ph ph-arrow-up-right text-2xl"></i>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- LIÊN HỆ -->
+        <section id="contact" class="py-32 max-w-6xl mx-auto w-full text-center">
+            <h2 class="text-sm font-medium uppercase tracking-widest text-[#c2ff00] mb-8">04. What's Next?</h2>
+            <h3 class="text-[10vw] md:text-[8vw] font-serif leading-none tracking-tighter mb-12 hover:italic transition-all duration-500">
+                Let's Talk.
+            </h3>
+            <p class="max-w-xl mx-auto text-[#8a8893] text-lg mb-12">
+                Whether you have an idea for a scalable system, an enterprise project, or just want to chat about software engineering, my inbox is always open.
+                <br/><br/>
+                <span class="text-white">📞 (+84) 785 413 626</span>
+            </p>
+            <a href="mailto:it.tranquangthang@gmail.com" class="inline-flex items-center gap-3 px-8 py-4 bg-[#c2ff00] text-black rounded-full text-lg font-bold hover:bg-white hover:scale-105 transition-all duration-300">
+                <i class="ph ph-envelope text-xl"></i> it.tranquangthang@gmail.com
+            </a>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5 py-8 mt-20">
+        <div class="max-w-6xl mx-auto w-full px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#8a8893]">
+            <p id="copyright-year">© 2026 Trần Quang Thắng. Built with Passion.</p>
+            <div class="flex gap-8 uppercase tracking-widest">
+                <a href="https://github.com/QuangThangt" target="_blank" class="hover:text-white transition-colors">GitHub</a>
+                <a href="mailto:it.tranquangthang@gmail.com" class="hover:text-white transition-colors">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS CHO LOGIC VÀ ANIMATION -->
+    <script>
+        // 1. Logic cho Đồng hồ Live
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false, 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit' 
+            });
+            document.getElementById('live-clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Cập nhật năm tự động ở footer
+        document.getElementById('copyright-year').textContent = `© ${new Date().getFullYear()} Trần Quang Thắng. Built with Passion.`;
+
+        // 2. Logic Ánh sáng đi theo chuột (Mouse Spotlight)
+        const spotlight = document.getElementById('spotlight');
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            spotlight.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(194, 255, 0, 0.04), transparent 40%)`;
+        });
+
+        // 3. Logic thanh điều hướng (Cuộn mượt + Scroll Spy)
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const sections = ['home', 'about', 'work', 'contact'];
+
+        // Xử lý Click mượt mà
+        navButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-target');
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Xử lý Scroll để highlight nút Active
+        window.addEventListener('scroll', () => {
+            let current = 'home';
+            const scrollPosition = window.scrollY + 200; // offset
+
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                if (element) {
+                    const offsetTop = element.offsetTop;
+                    const offsetHeight = element.offsetHeight;
+                    if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                        current = section;
+                    }
+                }
+            });
+
+            // Cập nhật class CSS cho nút Nav
+            navButtons.forEach(btn => {
+                if (btn.getAttribute('data-target') === current) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
